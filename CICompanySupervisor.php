@@ -76,7 +76,8 @@ class CICompanyUser{
             
                     if(strtolower($action)==strtolower("fetchregdata")) $this->cFetchregdata();
                     if(strtolower($action)==strtolower("rejapproval")) $this->cRejapproval();
-                    if(strtolower($action)==strtolower("acceptapproval")) $this->cAcceptapproval();
+                    if(strtolower($action)==strtolower("acceptapproval")) $this->cAcceptapproval();   
+                    if(strtolower($action)==strtolower("getsupeditorregcompleted")) $this->cGetSupEditorRegCompleted();
 		}
 	}
         public function cGetEditor(){
@@ -297,6 +298,15 @@ class CICompanyUser{
             $supervisormodel->Initialize($this->cCmpUserid,NULL);
             $supervisormodel->mAcceptapproval($this->cStatusObj,$this->cDbObject);
             
+        }
+        public function cGetSupEditorRegCompleted(){
+           $this->cEditorid = cilib_isset('editor',0);
+           $this->cCmpRoleid = cilib_isset('roleId',0);
+           $supervisormodel = new CICompanySupervisorM();
+           $supervisormodel->Initialize($this->cCmpUserid,$this->cCmpRoleid);
+           $supervisormodel->mGetSupEditorRegCompleted($this->cStatusObj,$this->cDbObject);
+           echo json_encode($this->cStatusObj['getsupeditordetails']);
+           log_message("info","AllActivitiesssss===========>>".json_encode($this->cStatusObj));
         }
 }
         $controllerObj = new CICompanyUser();
